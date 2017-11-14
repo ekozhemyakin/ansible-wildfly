@@ -1,0 +1,9 @@
+---
+# tasks file for evg.wildfly
+
+- include_tasks: erase.yml
+  when: wildfly_erase_old_installation
+
+- include_tasks: install.yml
+
+# vim: ft=ansible:

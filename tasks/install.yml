@@ -1,0 +1,70 @@
+---
+### TASKS: Install WildFly on Debian/RedHat based linux
+
+#- debug: var=vars
+
+- name: Install prerequisites - Debian
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ windfly_debian_packages }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Install prerequisites - RedHat
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ windfly_redhat_packages }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: create group
+  group:
+    name: "{{ wildfly_group }}"
+    system: yes
+    state: present
+
+- name: create user
+  user:
+    name: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    home: "{{ wildfly_home }}"
+    createhome: no
+    shell: /usr/sbin/nologin
+    system: yes
+    state: present
+
+- name: download
+  get_url:
+    dest: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
+    url: "{{ wildfly_download }}"
+#    sha256sum:
+
+- name: unpack
+  unarchive:
+    dest: "{{ wildfly_base_dir }}"
+    src: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
+    group: "{{ wildfly_group}}"
+    owner: "{{ wildfly_user }}"
+    creates: "{{ wildfly_home }}"
+    remote_src: yes
+
+- name: create simlink
+  file:
+    dest: "{{ wildfly_home }}"
+    src: "{{ wildfly_base_dir }}/wildfly-{{ wildfly_version }}"
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    state: link
+
+
+- name: remove downloaded files
+  file:
+    path: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
+    state: absent
+  when: wildfly_remove_tmp_file
+
+
+
+
+
+# vim:ft=ansible:

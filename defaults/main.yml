@@ -1,0 +1,33 @@
+---
+# defaults file for evg.wildfly
+
+wildfly_version: 10.1.0.Final
+
+wildfly_download_url: http://download.jboss.org
+wildfly_download_format: tar.gz
+wildfly_download_file: "wildfly-{{ wildfly_version }}.{{ wildfly_download_format }}"
+wildfly_download: "{{ wildfly_download_url }}//wildfly/{{ wildfly_version }}/{{ wildfly_download_file }}"
+wildfly_download_tmp: /tmp
+
+
+wildfly_base_dir: /opt
+wildfly_home: "{{ wildfly_base_dir}}/wildfly"
+
+wildfly_user: wildfly
+wildfly_group: wildfly
+
+wildfly_mode: standalone
+
+wildfly_ip: 0.0.0.0
+wildfly_http_port: 8080
+wildfly_https_port: 8443
+
+wildfly_management_ip: 127.0.0.1
+wildfly_management_http_port: 9990
+wildfly_management_https_port: 9993
+
+
+
+wildfly_erase_old_installation: no
+# !!!
+wildfly_remove_tmp_file: no

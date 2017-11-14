@@ -1,0 +1,11 @@
+---
+# vars file for evg.wildfly
+#
+
+windfly_redhat_packages:
+  - java-1.8.0-openjdk-headless
+  - unzip
+windfly_debian_packages:
+  - default-jdk
+  - unzip
+

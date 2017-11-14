@@ -1,0 +1,8 @@
+---
+# handlers file for evg.wildfly
+- name: Restart WildFly service
+  service:
+    name: wildfly
+    state: restarted
+
+# vim: ft=ansible
