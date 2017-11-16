@@ -43,12 +43,12 @@
   unarchive:
     dest: "{{ wildfly_base_dir }}"
     src: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
+    creates: "{{ wildfly_home }}"
     group: "{{ wildfly_group}}"
     owner: "{{ wildfly_user }}"
-    creates: "{{ wildfly_home }}"
     remote_src: yes
 
-- name: create simlink
+- name: create simlink in install dir
   file:
     dest: "{{ wildfly_home }}"
     src: "{{ wildfly_base_dir }}/wildfly-{{ wildfly_version }}"
@@ -56,6 +56,48 @@
     group: "{{ wildfly_group }}"
     state: link
 
+- name: create dir in /etc
+  file:
+    path: /etc/wildfly
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    mode: 0755
+
+# examples are in /opt/wildfly/docs/contrib/scripts/
+
+- name: create config from template
+  template:
+    src: wildfly.conf.j2
+    dest: "/etc/wildfly/wildfly.conf"
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    mode: 0644
+  notify: restart wildfly service
+
+- name: install systemd launch.sh from template
+  template:
+    src: launch.sh.j2
+    dest: "{{ wildfly_home }}/bin/launch.sh"
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_user }}"
+    mode: 0755
+  notify: restart wildfly service
+
+- name: install system service from template
+  template:
+    src: wildfly.service.j2
+    dest: "/etc/systemd/system/wildfly.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart wildfly service
+
+- name: start the service
+  service:
+    name: wildfly
+    state: started
+    enabled: yes
 
 - name: remove downloaded files
   file:

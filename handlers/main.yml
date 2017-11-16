@@ -1,6 +1,6 @@
 ---
 # handlers file for evg.wildfly
-- name: Restart WildFly service
+- name: restart wildfly service
   service:
     name: wildfly
     state: restarted
