@@ -28,8 +28,9 @@
     name: "{{ wildfly_user }}"
     group: "{{ wildfly_group }}"
     home: "{{ wildfly_home }}"
+    comment: "Fly Wild"
+    shell: "/usr/sbin/nologin"
     createhome: no
-    shell: /usr/sbin/nologin
     system: yes
     state: present
 
