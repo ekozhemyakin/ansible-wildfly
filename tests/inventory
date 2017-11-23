@@ -1,2 +1,17 @@
-localhost
+# localhost
+
+[ubuntu]
+docker-ub101.yoga.evg
+
+[centos]
+docker-ce111.yoga.evg
+#docker-ce112.yoga.evg
+
+[test:children]
+ubuntu
+centos
+
+[centos:vars]
+ansible_become=True
+ansible_become_pass="qwe07qq"
 

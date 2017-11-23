@@ -1,7 +1,16 @@
 ---
-### TASKS: What does this playbook do?
+### TASKS: Erase old installation
 
-- name: first task
-  debug: msg='not realised'
+- name: stop wildfly service
+  service:
+    name: wildfly
+    state: stopped
+    enable: no
+
+- name: delete "{{ wildfly_home }}"
+  file:
+    path: "{{ wildfly_home }}"
+    state: absent
+
 
 # vim:ft=ansible:
