@@ -1,8 +1,8 @@
 ---
 ### TASKS: Install WildFly on Debian/RedHat based linux
 
-- debug: var=vars
-- fail: msg="Stop it"
+#- debug: var=vars
+#- fail: msg="Stop it"
 
 - name: Install prerequisites - Debian
   apt:

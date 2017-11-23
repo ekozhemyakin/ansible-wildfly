@@ -1,15 +1,15 @@
 # localhost
 
-[ubuntu]
-docker-ub101.yoga.evg
+[ub]
+docker-ub101.yoga.evg ansible_all_ipv4_addresses=10.2.3.101
 
-[centos]
-docker-ce111.yoga.evg
+[ce]
+docker-ce111.yoga.evg ansible_all_ipv4_addresses=10.2.3.111
 #docker-ce112.yoga.evg
 
 [test:children]
-ubuntu
-centos
+ub
+ce
 
 [centos:vars]
 ansible_become=True

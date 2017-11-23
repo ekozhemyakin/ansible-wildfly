@@ -1,0 +1,26 @@
+---
+### TASKS: Run docker ontainers
+
+- name: starting docker container from "{{ image }}"
+  docker_container:
+    name: "{{ container }}-{{ image }}"
+    hostname: "{{ container }}-{{ image }}"
+    image: "{{ image }}"
+    state: started
+    tty: yes
+    keep_volumes: no
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+- name: add "{{ container}}-{{ image }}" container to inventory
+  add_host:
+    name: "{{ container }}-{{ image }}"
+    ansible_host: "{{ container }}-{{ image }}"
+    ansible_user: root
+    ansible_connection: docker
+    groups: test
+  changed_when: false
+
+
+# vim:ft=ansible:
