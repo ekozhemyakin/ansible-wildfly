@@ -6,7 +6,7 @@
   connection: local
   pre_tasks:
     - name: reading environment variable (default CONTAINER=wildfly)
-      set_fact: container="{{ lookup('env', 'CONTAINER') | default(wildfly, true) }}"
+      set_fact: container="{{ lookup('env', 'CONTAINER') | default("wf", true) }}"
 
     - include_tasks: run_docker_containers.yml image="{{ item }}"
       with_items:
