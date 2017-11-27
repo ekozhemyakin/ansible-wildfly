@@ -1,8 +1,8 @@
 ---
 ### TASKS: Install WildFly on Debian/RedHat based linux
 
-#- debug: var=vars
-#- fail: msg="Stop it"
+# - debug: var=vars
+# - fail: msg="Stop it"
 
 - name: Install prerequisites - Debian
   apt:
@@ -39,7 +39,8 @@
   get_url:
     dest: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
     url: "{{ wildfly_download }}"
-#    sha256sum:
+    sha256sum: "{{ wildfly_sum }}"
+    validate_certs: "{{ wildfly_validate_certs|default(True)|bool }}"
 
 - name: unpack
   unarchive:
@@ -106,9 +107,5 @@
     path: "{{ wildfly_download_tmp }}/{{ wildfly_download_file }}"
     state: absent
   when: wildfly_remove_tmp_file
-
-
-
-
 
 # vim:ft=ansible:

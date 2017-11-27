@@ -5,7 +5,7 @@
   service:
     name: wildfly
     state: stopped
-    enable: no
+    enabled: no
 
 - name: delete "{{ wildfly_home }}"
   file:

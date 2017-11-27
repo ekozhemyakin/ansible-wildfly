@@ -4,11 +4,16 @@
 wildfly_version: 10.1.0.Final
 
 wildfly_download_url: http://download.jboss.org
+
 wildfly_download_format: tar.gz
 wildfly_download_file: "wildfly-{{ wildfly_version }}.{{ wildfly_download_format }}"
 wildfly_download: "{{ wildfly_download_url }}//wildfly/{{ wildfly_version }}/{{ wildfly_download_file }}"
 wildfly_download_tmp: /tmp
-
+wildfly_sum: 80781609be387045273f974662dadf7f64ad43ee93395871429bc6b7786ec8bc
+###
+wildfly_download: "https://10.42.74.117/{{ wildfly_download_file }}"
+wildfly_validate_certs: no
+###
 
 wildfly_base_dir: /opt
 wildfly_home: "{{ wildfly_base_dir}}/wildfly"
@@ -26,8 +31,6 @@ wildfly_https_port: 8443
 wildfly_management_ip: 127.0.0.1
 wildfly_management_http_port: 9990
 wildfly_management_https_port: 9993
-
-
 
 wildfly_erase_old_installation: no
 # !!!
