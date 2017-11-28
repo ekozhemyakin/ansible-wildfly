@@ -3,8 +3,7 @@
 
 - name: starting docker container from "{{ image }}"
   docker_container:
-    name: "{{ container }}-{{ image }}"
-    hostname: "{{ container }}-{{ image }}"
+    name: "{{ container }}-{{ image|replace(':', '_') }}"
     image: "{{ image }}"
     state: started
     tty: yes
@@ -12,11 +11,12 @@
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  register: cont
 
 - name: add "{{ container}}-{{ image }}" container to inventory
   add_host:
-    name: "{{ container }}-{{ image }}"
-    ansible_host: "{{ container }}-{{ image }}"
+    name: "{{ cont.ansible_facts.docker_container.Config.Hostname }}"
+    ansible_host: "{{ cont.ansible_facts.docker_container.Config.Hostname }}"
     ansible_user: root
     ansible_connection: docker
     groups: test
