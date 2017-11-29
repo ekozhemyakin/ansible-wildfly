@@ -4,17 +4,23 @@
 - hosts: localhost
   gather_facts: no
   connection: local
-  pre_tasks:
-    - name: read environment variable (default CONTAINER=wildfly)
-      set_fact: container="{{ lookup('env', 'CONTAINER') | default("wf", true) }}"
+  vars:
+    doc_images:
+      - my_centos
+      - my_ubuntu
+    container: "{{ lookup('env', 'CONTAINER') | default('wf', true) }}"
 
+  pre_tasks:
 #    - include_tasks: run_docker_containers.yml image="{{ item }}"
-    - include: run_docker_containers.yml image="{{ item }}"
-      with_items:
-        - my_centos
-        - my_ubuntu
+    - name: include tasks for running docker containers
+      include: run_docker_containers.yml image="{{ item }}"
+      with_items: "{{ doc_images }}"
 
 - hosts: test
+  vars:
+    wildfly_download: "https://10.2.3.1/{{ wildfly_download_file }}"
+    wildfly_validate_certs: no
+    wildfly_erase_old_installation: yes
   roles:
     - evg.wildfly
 

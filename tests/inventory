@@ -11,7 +11,7 @@ docker-ce111.yoga.evg ansible_all_ipv4_addresses=10.2.3.111
 ub
 ce
 
-[centos:vars]
+[test:vars]
 ansible_become=True
 ansible_become_pass="qwe07qq"
 
